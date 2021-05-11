@@ -1,4 +1,4 @@
-test
+/test/
 
 # Created by https://www.toptal.com/developers/gitignore/api/java
 # Edit at https://www.toptal.com/developers/gitignore?templates=java
@@ -7,7 +7,6 @@ test
 # Compiled class file
 *.class
 
-# Log file
 *.log
 
 # BlueJ files

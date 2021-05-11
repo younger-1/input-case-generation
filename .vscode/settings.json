@@ -3,5 +3,11 @@
         "src"
     ],
     "java.project.outputPath": "bin",
-    "java.server.launchMode": "Standard"
+    "java.server.launchMode": "Standard",
+    "java.project.referencedLibraries": {
+        "include": [
+            "lib/**/*.jar"
+        ],
+        "exclude": []
+    }
 }

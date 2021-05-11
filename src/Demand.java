@@ -1,4 +1,8 @@
-import java.util.Date;
+import java.util.*;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
 public class Demand {
     private String id;
@@ -37,6 +41,29 @@ public class Demand {
     }
 
     public Demand() {
+    }
+
+    public static void main(String[] args) {
+        Demand d = new Demand();
+        d.setDemandType("打击评估");
+        d.setLoadType("光学");
+        d.settarget("台湾");
+        String s = JSON.toJSONString(d);
+        System.out.println(s);
+        JSONObject jb = JSON.parseObject(s);
+        System.out.println(jb);
+
+        Demand dd = new Demand();
+        dd.setDemandType("打击评估");
+        dd.setLoadType("光学");
+        dd.settarget("日本");
+        List<Demand> dl = new ArrayList<Demand>();
+        dl.add(d);
+        dl.add(dd);
+        s = JSON.toJSONString(dl);
+        System.out.println(s);
+        JSONArray ja = JSON.parseArray(s);
+        System.out.println(ja);
     }
 
     /**
