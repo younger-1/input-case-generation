@@ -2,13 +2,15 @@ import java.util.*;
 
 public class DemandGenerator {
     private static Random r = new Random();
+    private static final int MaxDayFromNow = 7;
+    private static final int MaxHourFromNow = 12;
 
     private static List<String> targetTypeList;
     private static List<String> demandTypeList;
     private static List<String> priorityList;
+    // ? Integer
     private static List<String> resolutionList;
     private static List<String> loadTypeList;
-    private static List<Date> dateList;
 
     private int demandNumber;
     // private int satelliteNumber;
@@ -25,6 +27,30 @@ public class DemandGenerator {
         this.setAreaTargetRate(areaTargetRate);
         this.setUrgentRate(urgentRate);
         // this.setDensity(density);
+        initAllList();
+    }
+
+    private void initAllList() {
+        targetTypeList = new ArrayList<>();
+        targetTypeList.add("点目标");
+        targetTypeList.add("区域目标");
+        targetTypeList.add("移动目标");
+        demandTypeList = new ArrayList<>();
+        demandTypeList.add("态势普查");
+        demandTypeList.add("战略详查");
+        demandTypeList.add("搜索发现");
+        priorityList = new ArrayList<>();
+        priorityList.add("紧急");
+        priorityList.add("战时");
+        priorityList.add("普通");
+        resolutionList = new ArrayList<>();
+        resolutionList.add("5");
+        resolutionList.add("10");
+        resolutionList.add("15");
+        loadTypeList = new ArrayList<>();
+        loadTypeList.add("光学");
+        loadTypeList.add("电子");
+        loadTypeList.add("红外");
     }
 
     /**
@@ -111,10 +137,18 @@ public class DemandGenerator {
             d.setId(Integer.valueOf(i).toString());
             d.settarget("target-" + i);
             d.settargetPosition(pickRandomPosition(isChina ? true : false));
+            d.setFinishTime(pickRandomFinishTime());
             populateDemand(d);
             allDemands.add(d);
         }
         return allDemands;
+    }
+
+    private Date pickRandomFinishTime() {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) + r.nextInt(MaxDayFromNow));
+        c.set(Calendar.HOUR, c.get(Calendar.HOUR) + r.nextInt(MaxHourFromNow));
+        return c.getTime();
     }
 
     private Vector2d pickRandomPosition(boolean isChina) {
@@ -123,10 +157,10 @@ public class DemandGenerator {
 
     private void populateDemand(Demand d) {
         d.setDemandType(pickRandomValue(demandTypeList));
-        d.setFinishTime(pickRandomValue(dateList));
         d.setLoadType(pickRandomValue(loadTypeList));
         d.setPriority(pickRandomValue(priorityList));
         d.setResolution(pickRandomValue(resolutionList));
+        d.settargetType(pickRandomValue(targetTypeList));
     }
 
     private <T> T pickRandomValue(List<T> list) {
