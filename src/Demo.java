@@ -128,7 +128,7 @@ public class Demo {
 
         // https://www.programcreek.com/2011/03/java-write-to-a-file-code-example/
         FileWriter fw = new FileWriter("data/china-border.csv");
-        for (int i = 0; i < nodes.length; i += 5000) {
+        for (int i = 0; i < nodes.length; i += 500) {
             fw.write(nodes[i] + "\n");
         }
         fw.close();

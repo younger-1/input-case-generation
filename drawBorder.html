@@ -36,11 +36,12 @@
                 //     [116.387271, 39.912501],
                 //     [116.398258, 39.904600]
                 // ];
-                var lineArr = [];
 
-                console.log(text)
+                var lineArr = [];
                 text.split("\n").forEach(function (val) {
-                    lineArr.push(val.split(","))
+                    var arr = val.split(",").map(Number)
+                    if (arr.length > 1)
+                        lineArr.push(arr)
                 })
 
                 var polyline = new AMap.Polyline({
