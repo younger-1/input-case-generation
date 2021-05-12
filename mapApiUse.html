@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        html,
+        body,
+        #container {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <div id="container" style="width:500px; height:300px"></div> -->
+    <div id="container"></div>
+    <script type="text/javascript"
+        src="https://webapi.amap.com/maps?v=1.4.15&key=4d1af9309e20a6f520e8bb81c7bc17f4"></script>
+    <!-- 同步加载 -->
+    <script type="text/javascript">
+        var map = new AMap.Map('container', {
+            // layers: [new AMap.TileLayer.Satellite()],  //设置图层,可设置成包含一个或多个图层的数组
+            // mapStyle: 'amap://styles/whitesmoke',  //设置地图的显示样式
+            center: [116.368904, 39.913423],
+            zoom: 11
+        });
+
+        // 异步同时加载多个插件
+        AMap.plugin(['AMap.ToolBar', 'AMap.Driving'], function () {
+            var toolbar = new AMap.ToolBar();
+            map.addControl(toolbar);
+            var driving = new AMap.Driving();//驾车路线规划
+            driving.search(/*参数*/)
+        });
+
+        // 实时路况图层
+        // var trafficLayer = new AMap.TileLayer.Traffic({
+        //     zIndex: 10
+        // });
+        // map.add(trafficLayer);//添加图层到地图
+
+        // 点标记
+        var marker = new AMap.Marker({
+            position: [116.405467, 39.907761],
+            icon: new AMap.Icon({
+                size: new AMap.Size(40, 50),  //图标的大小
+                image: "https://webapi.amap.com/theme/v1.3/images/newpc/way_btn2.png",
+                imageOffset: new AMap.Pixel(0, -60)
+            })
+        });
+        map.add(marker);
+
+        // 多边形 Polygon
+        var lineArr = [
+            [116.368904, 39.913423],
+            [116.382122, 39.901176],
+            [116.387271, 39.912501],
+            [116.398258, 39.904600]
+        ];
+        var polyline = new AMap.Polyline({
+            path: lineArr,          //设置线覆盖物路径
+            strokeColor: "#3366FF", //线颜色
+            strokeWeight: 5,        //线宽
+            strokeStyle: "solid",   //线样式
+        });
+        map.add(polyline);
+
+        // 事件功能与信息窗体
+        var infoWindow = new AMap.InfoWindow({ //创建信息窗体
+            isCustom: true,  //使用自定义窗体
+            content: '<div>Hello, 信息窗体</div>', //信息窗体的内容可以是任意html片段
+            offset: new AMap.Pixel(16, -45)
+        });
+        var onMarkerClick = function (e) {
+            infoWindow.open(map, e.target.getPosition());//打开信息窗体
+            //e.target就是被点击的Marker
+        }
+        var marker = new AMap.Marker({
+            position: [116.481181, 39.989792]
+        })
+        map.add(marker);
+        marker.on('click', onMarkerClick);//绑定click事件
+
+        // 自动适配到合适视野范围
+        // 无参数，默认包括所有覆盖物的情况
+        map.setFitView();
+        // 传入覆盖物数组，仅包括polyline和marker1的情况
+        // map.setFitView([polyline, marker1]);
+    </script>
+</body>
+
+</html>

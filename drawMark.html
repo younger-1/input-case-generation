@@ -33,8 +33,10 @@
             marker = new AMap.Marker({
                 offset: new AMap.Pixel(-12, -12),
                 zIndex: 101,
-                map: map
+                icon: icon,
             });
+            marker.setMap(map)
+            map.setFitView();// 执行定位
         }
     </script>
 </body>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        html,
+        body,
+        #container {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="file" id="file-input" />
+    <button id="read-button">Read File</button>
+    <pre id="file-contents"></pre>
+
+    <script>
+        document.querySelector("#read-button").addEventListener('click', function () {
+            let file = document.querySelector("#file-input").files[0];
+            let reader = new FileReader();
+            reader.addEventListener('load', function (e) {
+                let text = e.target.result;
+                // document.querySelector("#file-contents").textContent = text;
+
+                // var lineArr = [
+                //     [116.368904, 39.913423],
+                //     [116.382122, 39.901176],
+                //     [116.387271, 39.912501],
+                //     [116.398258, 39.904600]
+                // ];
+                var lineArr = [];
+
+                console.log(text)
+                text.split("\n").forEach(function (val) {
+                    lineArr.push(val.split(","))
+                })
+
+                var polyline = new AMap.Polyline({
+                    path: lineArr,          //设置线覆盖物路径
+                    strokeColor: "#3366FF", //线颜色
+                    strokeWeight: 5,        //线宽
+                    strokeStyle: "solid",   //线样式
+                });
+                map.add(polyline);
+                map.setFitView(polyline);
+            });
+            reader.readAsText(file);
+        });
+    </script>
+
+    <div id="container"></div>
+    <script type="text/javascript"
+        src="https://webapi.amap.com/maps?v=1.4.15&key=4d1af9309e20a6f520e8bb81c7bc17f4"></script>
+    <!-- 同步加载 -->
+    <script type="text/javascript">
+        var map = new AMap.Map('container', {
+            // layers: [new AMap.TileLayer.Satellite()],  //设置图层,可设置成包含一个或多个图层的数组
+            center: [116.368904, 39.913423],
+            zoom: 11
+        });
+
+        AMap.plugin(['AMap.ToolBar', 'AMap.Driving'], function () {
+            var toolbar = new AMap.ToolBar();
+            map.addControl(toolbar);
+        });
+
+    </script>
+</body>
+
+</html>
