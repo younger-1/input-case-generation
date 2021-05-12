@@ -8,12 +8,11 @@ public class Demand {
     private String id;
     private Date finishTime;
     private String target;
-    private double[] targetPosition;
+    private Vector2d targetPosition;
     private String targetType;
     private String demandType;
     private String priority;
     private String resolution;
-    // @Depracated
     private String loadType;
 
     /**
@@ -27,7 +26,7 @@ public class Demand {
      * @param resolution
      * @param loadType
      */
-    public Demand(String id, Date finishTime, String target, double[] targetPosition, String targetType,
+    public Demand(String id, Date finishTime, String target, Vector2d targetPosition, String targetType,
             String demandType, String priority, String resolution, String loadType) {
         this.id = id;
         this.finishTime = finishTime;
@@ -139,14 +138,14 @@ public class Demand {
     /**
      * @return the targetPosition
      */
-    public double[] gettargetPosition() {
+    public Vector2d gettargetPosition() {
         return targetPosition;
     }
 
     /**
      * @param targetPosition the targetPosition to set
      */
-    public void settargetPosition(double[] targetPosition) {
+    public void settargetPosition(Vector2d targetPosition) {
         this.targetPosition = targetPosition;
     }
 

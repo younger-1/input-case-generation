@@ -3,6 +3,21 @@ import java.util.*;
 
 public class Tool {
 
+    private static Random r = new Random();
+    /* 
+     * 东经北纬为正，西经南纬为负
+     * 73°33′E至135°05′E 纬度范围：3°51′N至53°33′N
+     */
+    private static final double ChinaNorth = 53.55;
+    private static final double ChinaSouth = 3.86;
+    private static final double ChinaEast = 135.08;
+    private static final double ChinaWest = 73.55;
+
+    private static final double North = 90;
+    private static final double South = -90;
+    private static final double East = 180;
+    private static final double West = -180;
+
     public static List<Vector2d> chinaBorder = null;
 
     public static void main(String[] args) throws IOException {
@@ -32,7 +47,7 @@ public class Tool {
         }
     }
 
-    public static boolean isInChina(Vector2d targetPos) {
+    public static boolean isInChina_(Vector2d targetPos) {
         if (chinaBorder == null) {
             initChinaBorder();
         }
@@ -55,6 +70,23 @@ public class Tool {
             }
         }
         return true;
+    }
+
+    public static boolean isInChina(Vector2d targetPos) {
+        return ChinaWest <= targetPos.x && targetPos.x <= ChinaEast && ChinaSouth <= targetPos.y
+                && targetPos.y <= ChinaNorth;
+    }
+
+    public static Vector2d pickRandomPosition(boolean isChina) {
+        double n = North, s = South, e = East, w = West;
+        if (isChina) {
+            n = ChinaNorth;
+            s = ChinaSouth;
+            e = ChinaEast;
+            w = ChinaWest;
+        }
+        Vector2d vec = new Vector2d(w + (e - w) * r.nextDouble(), s + (n - s) * r.nextDouble());
+        return vec;
     }
 }
 

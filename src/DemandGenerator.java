@@ -1,11 +1,14 @@
 import java.util.*;
 
 public class DemandGenerator {
-    private List<String> targetTypeList;
-    private List<String> demandTypeList;
-    private List<String> priorityList;
-    private List<String> resolutionList;
-    private List<String> loadTypeList;
+    private static Random r = new Random();
+
+    private static List<String> targetTypeList;
+    private static List<String> demandTypeList;
+    private static List<String> priorityList;
+    private static List<String> resolutionList;
+    private static List<String> loadTypeList;
+    private static List<Date> dateList;
 
     private int demandNumber;
     // private int satelliteNumber;
@@ -105,8 +108,28 @@ public class DemandGenerator {
 
         for (int i = 0; i < this.demandNumber; i++) {
             Demand d = new Demand();
+            d.setId(Integer.valueOf(i).toString());
+            d.settarget("target-" + i);
+            d.settargetPosition(pickRandomPosition(isChina ? true : false));
+            populateDemand(d);
             allDemands.add(d);
         }
         return allDemands;
+    }
+
+    private Vector2d pickRandomPosition(boolean isChina) {
+        return Tool.pickRandomPosition(isChina);
+    }
+
+    private void populateDemand(Demand d) {
+        d.setDemandType(pickRandomValue(demandTypeList));
+        d.setFinishTime(pickRandomValue(dateList));
+        d.setLoadType(pickRandomValue(loadTypeList));
+        d.setPriority(pickRandomValue(priorityList));
+        d.setResolution(pickRandomValue(resolutionList));
+    }
+
+    private <T> T pickRandomValue(List<T> list) {
+        return list.get(r.nextInt(list.size()));
     }
 }
